@@ -23,7 +23,7 @@ export default function AppLayout() {
 	return (
 		<SidebarProvider>
 			<AppSidebar userSession={session} />
-			<main>
+			<main className="w-full">
 				<SidebarTrigger />
 				<section className="p-3">
 					<Outlet />

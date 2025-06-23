@@ -9,7 +9,6 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from "../ui/sidebar";
-import { Button } from "../ui/button";
 import {
 	DropdownMenuTrigger,
 	DropdownMenu,
@@ -19,6 +18,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import type { auth } from "~/lib/auth";
 import { authClient } from "~/lib/auth-client";
+import { CreateLinkBtn } from "./create-link-btn";
 
 const items = [
 	{
@@ -43,8 +43,6 @@ export function AppSidebar({
 }: {
 	userSession: typeof auth.$Infer.Session;
 }) {
-	console.log({ userSession });
-
 	return (
 		<Sidebar>
 			<SidebarGroup>
@@ -53,9 +51,7 @@ export function AppSidebar({
 					<SidebarMenu>
 						<SidebarMenuItem className="mb-2">
 							<SidebarMenuButton asChild>
-								<Button onClick={() => alert("Create new Link")}>
-									Create new Link
-								</Button>
+								<CreateLinkBtn />
 							</SidebarMenuButton>
 						</SidebarMenuItem>
 						{items.map((item) => (
