@@ -60,8 +60,6 @@ function CreateLinkForm() {
 		resolver: zodResolver(linkSchema),
 		defaultValues: {
 			shortenCode: nanoid(6),
-			createdAt: new Date(),
-			updatedAt: new Date(),
 		},
 	});
 

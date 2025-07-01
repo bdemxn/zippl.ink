@@ -7,7 +7,5 @@ export const subscriptions = pgTable("subscriptions", {
 		.notNull()
 		.references(() => user.id, { onDelete: "cascade" }),
 	plan: text("plan").notNull().default("free"),
-	startedAt: timestamp("started_at")
-		.notNull()
-		.$defaultFn(() => new Date()),
+	startedAt: timestamp("started_at").defaultNow(),
 });

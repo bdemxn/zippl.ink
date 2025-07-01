@@ -6,8 +6,8 @@ export const linkSchema = z.object({
 	shortenCode: z.string().min(1, "Code must be 1 character at least"),
 	description: z.string().optional(),
 	tags: z.string().optional(),
-	createdAt: z.date(),
-	updatedAt: z.date(),
+	createdAt: z.date().optional(),
+	updatedAt: z.date().optional(),
 });
 
 export type LinkInput = z.infer<typeof linkSchema>;

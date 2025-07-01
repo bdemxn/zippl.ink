@@ -11,12 +11,8 @@ export const links = pgTable("links", {
 	shortenCode: text("shorten_code").notNull(),
 	description: text("description"),
 	tags: text("tags"),
-	createdAt: timestamp("created_at")
-		.$defaultFn(() => new Date())
-		.notNull(),
-	updatedAt: timestamp("created_at")
-		.$defaultFn(() => new Date())
-		.notNull(),
+	createdAt: timestamp("created_at").defaultNow(),
+	updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const clicks = pgTable("clicks", {
@@ -29,7 +25,5 @@ export const clicks = pgTable("clicks", {
 		.references(() => links.id, { onDelete: "cascade" }),
 	userAgent: text("user_agent").notNull(),
 	referrer: text("referrer").notNull(),
-	createdAt: timestamp("created_at")
-		.$defaultFn(() => new Date())
-		.notNull(),
+	createdAt: timestamp("created_at").defaultNow(),
 });

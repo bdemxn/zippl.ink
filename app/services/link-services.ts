@@ -1,27 +1,14 @@
-import { authClient } from "~/lib/auth-client";
-import { db } from "~/lib/db";
-import { links } from "~/schemas";
 import type { LinkInput } from "~/types/link-types";
 
 export class LinkServices {
-	async createNewLink(linkInput: LinkInput) {
-		try {
-			const { data } = await authClient.getSession();
-			if (!data) throw Error();
+	async createNewLink(values: LinkInput) {
+		const response = await fetch("/api/links/create", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(values),
+		});
 
-			const userId: string = data.user.id;
-
-			await db.insert(links).values({
-				originalUrl: linkInput.originalUrl,
-				domain: linkInput.domain,
-				shortenCode: linkInput.shortenCode,
-				tags: linkInput.tags,
-				description: linkInput.description,
-				userId,
-			});
-		} catch (err) {
-			console.error({ err });
-			throw Error;
-		}
+		if (!response.ok) throw new Error("Something went wrong");
+		return await response.json();
 	}
 }
