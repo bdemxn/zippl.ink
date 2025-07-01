@@ -22,7 +22,7 @@ import {
 } from "../ui/select";
 import { nanoid } from "nanoid";
 import { toast } from "sonner";
-import { useLinks } from "~/hooks/use-links";
+import { LinkServices } from "~/services/link-services";
 
 export function CreateLinkBtn({ className }: React.ComponentProps<"button">) {
 	return (
@@ -65,10 +65,10 @@ function CreateLinkForm() {
 		},
 	});
 
-	const { createNewLink } = useLinks();
+	const linkServices = new LinkServices();
 
 	function linkSubmit(values: LinkInput) {
-		toast.promise(async () => await createNewLink(values), {
+		toast.promise(async () => await linkServices.createNewLink(values), {
 			loading: "Creating new awesome link...",
 			success: "New link has been created 🚀",
 			error: (error) => `Oops: ${error.message}`,
@@ -130,7 +130,7 @@ function CreateLinkForm() {
 				</span>
 			)}
 
-			<Button>Create & Track</Button>
+			<Button type="submit">Create & Track</Button>
 		</form>
 	);
 }

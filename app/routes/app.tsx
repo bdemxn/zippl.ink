@@ -18,7 +18,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export default function AppLayout() {
-	const session = useLoaderData();
+	const session = useLoaderData<typeof loader>();
 
 	return (
 		<SidebarProvider>
