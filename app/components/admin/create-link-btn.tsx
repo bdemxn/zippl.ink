@@ -23,10 +23,14 @@ import {
 import { nanoid } from "nanoid";
 import { toast } from "sonner";
 import { LinkServices } from "~/services/link-services";
+import React from "react";
+import { useRevalidator } from "react-router";
 
 export function CreateLinkBtn({ className }: React.ComponentProps<"button">) {
+	const [open, setOpen] = React.useState(false);
+
 	return (
-		<Dialog>
+		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
 				<Button className={className}>
 					<PackagePlusIcon />
@@ -43,13 +47,13 @@ export function CreateLinkBtn({ className }: React.ComponentProps<"button">) {
 					</DialogDescription>
 				</DialogHeader>
 
-				<CreateLinkForm />
+				<CreateLinkForm onSuccess={() => setOpen(false)} />
 			</DialogContent>
 		</Dialog>
 	);
 }
 
-function CreateLinkForm() {
+function CreateLinkForm({ onSuccess }: { onSuccess?: () => void }) {
 	const {
 		register,
 		handleSubmit,
@@ -64,11 +68,16 @@ function CreateLinkForm() {
 	});
 
 	const linkServices = new LinkServices();
+	const revalidator = useRevalidator();
 
 	function linkSubmit(values: LinkInput) {
 		toast.promise(async () => await linkServices.createNewLink(values), {
 			loading: "Creating new awesome link...",
-			success: "New link has been created 🚀",
+			success: () => {
+				onSuccess?.();
+				revalidator.revalidate();
+				return "New link has been created 🚀";
+			},
 			error: (error) => `Oops: ${error.message}`,
 		});
 	}
